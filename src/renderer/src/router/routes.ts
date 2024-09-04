@@ -1,6 +1,4 @@
 import {RouteRecordRaw} from "vue-router";
-import UserLoginView from "@/views/UserLoginView.vue";
-
 
 export const routes: Array<RouteRecordRaw> = [
   {
@@ -14,8 +12,21 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: "/user/login",
         name: "用户登录",
-        component: UserLoginView,
+        component: import("@/views/UserLoginView.vue"),
       },
     ]
   },
+  {
+    path: "/main",
+    name: "聊天主窗口",
+    redirect: "/chat",
+    component: () => import("@/views/MainView.vue"),
+    children: [
+      {
+        path: "/chat",
+        name: "聊天",
+        component: () => import("@/views/chat/ChatView.vue")
+      }
+    ]
+  }
 ]
