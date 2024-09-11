@@ -55,7 +55,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { getCurrentInstance, ref } from "vue";
+import { ref } from "vue";
 import util from "@/utils/util";
 import { Service } from "@/backend";
 import { md5 } from "js-md5";
@@ -65,8 +65,12 @@ import { useRouter } from "vue-router";
 
 
 const useInfoStore = useUserInfoStore();
-const { proxy } = getCurrentInstance();
-const formData = ref({});
+const formData = ref({
+  email: '',
+  password: '',
+  checkCode: '',
+  nickName: ''
+});
 const formDataRef = ref();
 const router = useRouter();
 const rules = {
@@ -97,7 +101,7 @@ const submit = async () => {
       email: formData.value.email,
       password: md5(formData.value.password),
       checkCode: formData.value.checkCode,
-      checkCodeKey: localStorage.getItem("checkCodeKey")
+      checkCodeKey: localStorage.getItem("checkCodeKey")!
     });
   } else {
     res = await Service.userRegisterUsingPost({
@@ -105,7 +109,7 @@ const submit = async () => {
       nickName: formData.value.nickName,
       password: formData.value.password,
       checkCode: formData.value.checkCode,
-      checkCodeKey: localStorage.getItem("checkCode")
+      checkCodeKey: localStorage.getItem("checkCode")!
     });
   }
   if (res.code == 0) {
@@ -121,12 +125,12 @@ const submit = async () => {
       token: res.data.token,
       userId: res.data.userId,
       nickName: res.data.nickName,
-      admin: res.data.role,
+      admin: res.data.role == 'admin',
       screenWidth: screenWidth,
       screenHeight: screenHeight
     })
   } else {
-    message.error("登录失败, " + res.message);
+    message.error("登录失败, " + res.message, null);
     await changeCheckCode();
   }
 };

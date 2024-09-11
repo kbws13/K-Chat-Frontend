@@ -26,7 +26,17 @@ export const routes: Array<RouteRecordRaw> = [
         path: "/chat",
         name: "聊天",
         component: () => import("@/views/chat/ChatView.vue")
-      }
+      },
+      {
+        path: "/contact",
+        name: "联系人",
+        component: () => import("@/views/contact/ContactView.vue")
+      },
+      {
+        path: "/setting",
+        name: "设置",
+        component: () => import("@/views/setting/SettingView.vue")
+      },
     ]
   }
 ]

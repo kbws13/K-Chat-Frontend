@@ -83,6 +83,7 @@ function createWindow(): void {
     mainWindow.setMaximizable(true);
     // 设置最小窗口大小
     mainWindow.setMinimumSize(800, 600);
+    // TODO 管理后台的窗口操作，托盘操作
     if (config.admin) {
 
     }
