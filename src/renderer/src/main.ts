@@ -3,6 +3,7 @@ import App from './App.vue'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import router from '@/router'
+import BaseLayout from '@/layout/BaseLayout.vue'
 import * as Pinia from 'pinia'
 import "@/plugin/axios";
 import '@/assets/cust-elementplus.scss'
@@ -13,4 +14,5 @@ createApp(App)
   .use(ElementPlus)
   .use(router)
   .use(Pinia.createPinia())
+  .component("BaseLayout", BaseLayout)
   .mount('#app')
