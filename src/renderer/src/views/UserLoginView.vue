@@ -53,6 +53,7 @@
       </el-form>
     </div>
   </div>
+  <WinOption :showSetTop="false" :showMin="false" :showMax="false" :closeType="0"></WinOption>
 </template>
 <script lang="ts" setup>
 import { ref } from "vue";

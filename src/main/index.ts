@@ -1,8 +1,8 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, Tray, Menu } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import { onLoginOrRegister, onLoginSuccess } from "./ipc";
+import { onLoginOrRegister, onLoginSuccess, winTitleOp } from "./ipc";
 
 const NODE_ENV = process.env.NODE_ENV
 
@@ -63,8 +63,26 @@ function createWindow(): void {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }
 
+  // 托盘
+  const tray = new Tray(icon);
+  const contextMenu = [
+    {
+      label: "退出K-Chat",
+      click: function() {
+        app.exit();
+      }
+    }
+  ]
+  const menu = Menu.buildFromTemplate(contextMenu);
+  tray.setToolTip("K-Chat");
+  tray.setContextMenu(menu);
+  tray.on("click", () => {
+    mainWindow.setSkipTaskbar(false);
+    mainWindow.show();
+  })
+
   // 监控 登录注册
-  onLoginOrRegister((isLogin) => {
+  onLoginOrRegister((isLogin: boolean) => {
     mainWindow.setResizable(true);
     if (isLogin) {
       mainWindow.setSize(login_width, login_height);
@@ -86,6 +104,45 @@ function createWindow(): void {
     // TODO 管理后台的窗口操作，托盘操作
     if (config.admin) {
 
+    }
+    contextMenu.unshift({
+      label: "用户：" + config.nickName,
+      click: function(){
+
+      }
+    })
+    tray.setContextMenu(Menu.buildFromTemplate(contextMenu));
+  })
+
+  winTitleOp((e, { action, data }) => {
+    const webContents = e.sender;
+    const win = BrowserWindow.fromWebContents(webContents);
+    switch(action) {
+      case "close": {
+        if (data.closeType == 0) {
+          win?.close();
+        }else {
+          win?.setSkipTaskbar(true);
+          win?.hide();
+        }
+        break;
+      }
+      case "minimize": {
+        win?.minimize();
+        break;
+      }
+      case "maximize": {
+        win?.maximize();
+        break;
+      }
+      case "unmaximize": {
+        win?.unmaximize();
+        break;
+      }
+      case "top": {
+        win?.setAlwaysOnTop(data.top);
+        break;
+      }
     }
   })
 }
