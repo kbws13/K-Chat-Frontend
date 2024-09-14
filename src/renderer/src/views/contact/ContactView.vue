@@ -52,7 +52,7 @@ const partList = ref([
             },
             {
                 name: "新的朋友",
-                icon: "icon-phone",
+                icon: "icon-plane",
                 iconBgColor: "#08bf61",
                 path: "/contact/contactNotice",
                 showTitle: true,

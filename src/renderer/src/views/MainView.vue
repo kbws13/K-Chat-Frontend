@@ -25,7 +25,7 @@
       </router-view>
     </div>
   </div>
-  <WinOption :closeType="0"></WinOption>
+  <WinOption :closeType="1"></WinOption>
 </template>
 <script setup lang="ts">
 import { ref } from 'vue';
