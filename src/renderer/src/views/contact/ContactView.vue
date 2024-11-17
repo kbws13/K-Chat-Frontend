@@ -13,7 +13,9 @@
                 <template v-for="item in partList">
                     <div class="part-title">{{ item.partName }}</div>
                     <div class="part-list">
-                        <div v-for="sub in item.children" :class="['part-item', sub.path == route.path ? 'active' : '']" @click="partJump(sub)">
+                        <div v-for="sub in item.children" 
+                            :class="['part-item', sub.path == route.path ? 'active' : '']" 
+                            @click="partJump(sub)">
                             <div :class="['iconfont', sub.icon]" :style="{ background: sub.iconBgColor }"></div>
                             <div class="text">{{ sub.name }}</div>
                         </div>
@@ -29,6 +31,9 @@
         </template>
         <template #right-content>
             <div class="title-panel drag">{{ rightTitle }}</div>
+            <router-view v-slot="{Component}">
+                <component :is="Component" ref="componentRef"></component>
+            </router-view>
         </template>
     </BaseLayout>
 </template>
@@ -97,6 +102,16 @@ const partList = ref([
 ]);
 
 const rightTitle = ref()
+
+const partJump = (data: any) => {
+    if(data.showTitle) {
+        rightTitle.value = data.name;
+    } else {
+        rightTitle.value = null;
+    }
+    // TODO 处理联系人好友申请 数量已读
+    router.push(data.path);
+}
 </script>
 
 <style lang="less" scoped>

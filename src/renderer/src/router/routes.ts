@@ -30,7 +30,20 @@ export const routes: Array<RouteRecordRaw> = [
       {
         path: "/contact",
         name: "联系人",
-        component: () => import("@/views/contact/ContactView.vue")
+        redirect: "/contact/blank",
+        component: () => import("@/views/contact/ContactView.vue"),
+        children: [
+          {
+            path: "/contact/blank",
+            name: "空白页",
+            component: () => import("@/views/contact/BlankPageView.vue"),
+          },
+          {
+            path: "/contact/search",
+            name: "搜索页",
+            component: () => import("@/views/contact/SearchView.vue"),
+          },
+        ]
       },
       {
         path: "/setting",
