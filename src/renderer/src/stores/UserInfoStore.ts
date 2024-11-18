@@ -1,13 +1,14 @@
+import { UserVO } from "@renderer/backend";
 import { defineStore } from "pinia";
 
 export const useUserInfoStore = defineStore("userInfo", {
   state: () => {
     return {
-      userInfo: {}
+      userInfo: {} as UserVO
     }
   },
   actions: {
-    setInfo(userInfo) {
+    setInfo(userInfo: UserVO) {
       this.userInfo = userInfo;
       localStorage.setItem("userInfo", JSON.stringify(userInfo))
     },

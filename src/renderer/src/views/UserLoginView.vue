@@ -110,7 +110,7 @@ const submit = async () => {
       nickName: formData.value.nickName,
       password: formData.value.password,
       checkCode: formData.value.checkCode,
-      checkCodeKey: localStorage.getItem("checkCode")!
+      checkCodeKey: localStorage.getItem("checkCodeKey")!
     });
   }
   if (res.code == 0) {

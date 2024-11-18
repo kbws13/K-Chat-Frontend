@@ -9,6 +9,7 @@ import WinOption from './componments/WinOption.vue';
 import ContentPanel from './componments/ContentPanel.vue';
 import ShowLocalImage from './componments/ShowLocalImage.vue';
 import UserBaseInfo from './componments/UserBaseInfo.vue';
+import Avatar from './componments/Avatar.vue';
 import * as Pinia from 'pinia'
 import "@/plugin/axios";
 import '@/assets/cust-elementplus.scss'
@@ -25,4 +26,5 @@ createApp(App)
   .component("ShowLocalImage", ShowLocalImage)
   .component("UserBaseInfo", UserBaseInfo)
   .component("Dialog", Dialog)
+  .component("Avatar", Avatar)
   .mount('#app')

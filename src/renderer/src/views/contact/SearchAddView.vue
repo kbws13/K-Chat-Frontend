@@ -61,10 +61,12 @@ const submitApply = async () => {
         contactId: contactId,
         applyMessage: applyInfo
     });
-    if(res.data === 0) {
+    if(res.data == 0) {
         message.success("添加成功", null);
-    } else {
+    } else if(res.data == 1) {
         message.success("申请成功，等待对方同意", null);
+    } else {
+        message.error(res.data.message, null);
     }
     dislogConfig.value.show = false;
     emit("reload");

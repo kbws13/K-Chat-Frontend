@@ -19,7 +19,17 @@
                             <div :class="['iconfont', sub.icon]" :style="{ background: sub.iconBgColor }"></div>
                             <div class="text">{{ sub.name }}</div>
                         </div>
-                        <template v-for="contact in item.contactData"></template>
+                        <template v-for="contact in item.contactData">
+                            <div :class="[
+                                'part-item', 
+                                contact[item.contactId] == route.query.contactId ? 
+                                'active': '']"
+                                @click="contactDetail(contact, item)"
+                                >
+                                <Avatar :userId="contact[item.contactId]" :width="35"></Avatar>
+                                <div class="text">{{ contact[item.contactName] }}</div>
+                            </div>
+                        </template>
                         <template v-if="item.contactData && item.contactData?.length == 0">
                             <div class="no-data">
                                 {{ item.emptyMsg }}
@@ -39,6 +49,8 @@
 </template>
 
 <script lang="ts" setup>
+import { Service, UserContactVO } from '@/backend';
+import Avatar from '@/componments/Avatar.vue';
 import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
@@ -78,7 +90,7 @@ const partList = ref([
         contactId: "groupId",
         contactName: "groupName",
         showTitle: true,
-        contactData: [],
+        contactData: <UserContactVO>[],
         contactPath: "/contact/groupDetail"
     },
     {
@@ -86,7 +98,7 @@ const partList = ref([
         contactId: "contactId",
         contactName: "contactName",
         showTitle: true,
-        contactData: [],
+        contactData: <UserContactVO>[],
         contactPath: "/contact/groupDetail",
         emptyMsg: "暂未加入群聊"
     },
@@ -112,6 +124,20 @@ const partJump = (data: any) => {
     // TODO 处理联系人好友申请 数量已读
     router.push(data.path);
 }
+
+const loadContact = async (contactType: string) => {
+    const res = await Service.myContactUsingGet(contactType);
+    if(!res) {
+        return;
+    }
+    if(contactType === 'GROUP') {
+        partList.value[2].contactData = res.data;
+    } else if(contactType === 'USER') {
+        partList.value[3].contactData = res.data;
+    }
+}
+loadContact("USER");
+loadContact("GROUP");
 </script>
 
 <style lang="less" scoped>
