@@ -149,9 +149,7 @@ loadContact("GROUP");
 
 watch(
     () => contactStateStore.contactReload,
-    (newVal, oldVal) => {
-        console.log('newVal: ', newVal);
-        
+    (newVal, oldVal) => {     
         if(!newVal) {
             return;
         }

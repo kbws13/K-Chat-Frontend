@@ -72,7 +72,6 @@ const submitApply = async () => {
     dislogConfig.value.show = false;
     emit("reload");
     if(res.data === 0) {
-        console.log('contactType: ', contactType);
         contactStateStore.setContactReload(contactType);
     }
 }
