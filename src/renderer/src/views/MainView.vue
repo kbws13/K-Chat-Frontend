@@ -28,9 +28,12 @@
   <WinOption :closeType="1"></WinOption>
 </template>
 <script setup lang="ts">
-import { ref } from 'vue';
+import { Service, UserVO } from '@/backend';
+import { useUserInfoStore } from '@/stores/UserInfoStore';
+import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
+const userInfoStore = useUserInfoStore();
 const router = useRouter();
 const menuList = ref([
   {
@@ -60,6 +63,18 @@ const changeMenu = (item: any) => {
   currentMenu.value = item;
   router.push(item.path);
 }
+
+const getLoginInfo = async () => {
+  const res = await Service.getCurrentUserUsingGet();
+  if(!res) {
+    return;
+  }
+  userInfoStore.setInfo(res.data as UserVO);
+}
+
+onMounted(() => {
+  getLoginInfo();
+})
 </script>
 <style scoped lang="less">
 .main {

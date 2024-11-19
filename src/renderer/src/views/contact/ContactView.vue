@@ -51,11 +51,19 @@
 <script lang="ts" setup>
 import { Service, UserContactVO } from '@/backend';
 import Avatar from '@/componments/Avatar.vue';
-import { ref } from 'vue';
+import { useContactStateStore } from '@/stores/ContactStateStore';
+import { ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+
+const contactStateStore = useContactStateStore();
 
 const router = useRouter();
 const route = useRoute();
+const searchKey = ref();
+
+const search = () => {
+
+}
 
 const partList = ref([
     {
@@ -138,6 +146,24 @@ const loadContact = async (contactType: string) => {
 }
 loadContact("USER");
 loadContact("GROUP");
+
+watch(
+    () => contactStateStore.contactReload,
+    (newVal, oldVal) => {
+        console.log('newVal: ', newVal);
+        
+        if(!newVal) {
+            return;
+        }
+        switch(newVal) {
+            case 'USER':
+            case 'GROUP':
+                loadContact(newVal);
+                break;
+        }
+    },
+    { immediate: true, deep: true }
+)
 </script>
 
 <style lang="less" scoped>

@@ -38,6 +38,7 @@ import SearchAddView from './SearchAddView.vue';
 const contactId = ref();
 const userInfoStore = useUserInfoStore();
 const searchResult = ref<UserContactSearchResultVO>();
+
 const search = async () => {
     if(!contactId.value) {
         message.warning("请输入用户ID或者群组ID", null);
@@ -65,6 +66,11 @@ const contactTypeName = computed(() => {
 const searchAddRef = ref();
 const applyContact = () => {
     searchAddRef.value.show(searchResult.value)
+}
+
+const resetForm = () => {
+    searchResult.value = {};
+    contactId.value = undefined
 }
 </script>
 

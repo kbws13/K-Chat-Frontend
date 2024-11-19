@@ -27,10 +27,12 @@
 <script lang="ts" setup>
 import { Service } from '@/backend';
 import message from '@/plugin/message';
+import { useContactStateStore } from '@/stores/ContactStateStore';
 import { useUserInfoStore } from '@/stores/UserInfoStore';
 import { nextTick, ref } from 'vue';
 
 const userInfoStore = useUserInfoStore();
+const contactStateStore = useContactStateStore();
 const formData = ref({});
 const formDataRef = ref();
 
@@ -54,22 +56,25 @@ const dislogConfig = ref({
 
 const emit = defineEmits(['reload']);
 const submitApply = async () => {
-    console.log(formData.value);
     // @ts-ignore
-    const { contactId, applyInfo } = formData.value;
+    const { contactId, contactType, applyInfo } = formData.value;
     const res = await Service.addUsingPost({
         contactId: contactId,
         applyMessage: applyInfo
     });
-    if(res.data == 0) {
+    if(res.data === 0) {
         message.success("添加成功", null);
-    } else if(res.data == 1) {
+    } else if(res.data === 1) {
         message.success("申请成功，等待对方同意", null);
     } else {
         message.error(res.data.message, null);
     }
     dislogConfig.value.show = false;
     emit("reload");
+    if(res.data === 0) {
+        console.log('contactType: ', contactType);
+        contactStateStore.setContactReload(contactType);
+    }
 }
 
 const show = (data: any) => {
