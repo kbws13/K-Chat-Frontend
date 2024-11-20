@@ -49,7 +49,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Service, UserContactVO } from '@/backend';
+import { GroupInfo, Service, UserContactVO } from '@/backend';
 import Avatar from '@/componments/Avatar.vue';
 import { useContactStateStore } from '@/stores/ContactStateStore';
 import { ref, watch } from 'vue';
@@ -98,7 +98,7 @@ const partList = ref([
         contactId: "groupId",
         contactName: "groupName",
         showTitle: true,
-        contactData: <UserContactVO>[],
+        contactData: <GroupInfo>[],
         contactPath: "/contact/groupDetail"
     },
     {
@@ -147,6 +147,15 @@ const loadContact = async (contactType: string) => {
 loadContact("USER");
 loadContact("GROUP");
 
+const loadMyGroup = async () => {
+    const res = await Service.getMyGroupUsingGet();
+    if(!res) {
+        return;
+    }
+    partList.value[1].contactData = res.data;
+}
+loadMyGroup();
+
 watch(
     () => contactStateStore.contactReload,
     (newVal, oldVal) => {     
@@ -157,6 +166,9 @@ watch(
             case 'USER':
             case 'GROUP':
                 loadContact(newVal);
+                break;
+            case 'MY':
+                loadMyGroup();
                 break;
         }
     },

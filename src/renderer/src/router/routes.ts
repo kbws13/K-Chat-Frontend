@@ -43,6 +43,11 @@ export const routes: Array<RouteRecordRaw> = [
             name: "搜索页",
             component: () => import("@/views/contact/SearchView.vue"),
           },
+          {
+            path: "/contact/createGroup",
+            name: "新建群聊",
+            component: () => import("@/views/contact/GroupEditView.vue"),
+          },
         ]
       },
       {

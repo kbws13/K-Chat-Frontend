@@ -10,6 +10,7 @@ import ContentPanel from './componments/ContentPanel.vue';
 import ShowLocalImage from './componments/ShowLocalImage.vue';
 import UserBaseInfo from './componments/UserBaseInfo.vue';
 import Avatar from './componments/Avatar.vue';
+import AvatarUpload from './componments/AvatarUpload.vue';
 import * as Pinia from 'pinia'
 import "@/plugin/axios";
 import '@/assets/cust-elementplus.scss'
@@ -27,4 +28,5 @@ createApp(App)
   .component("UserBaseInfo", UserBaseInfo)
   .component("Dialog", Dialog)
   .component("Avatar", Avatar)
+  .component("AvatarUpload", AvatarUpload)
   .mount('#app')
