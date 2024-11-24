@@ -48,6 +48,11 @@ export const routes: Array<RouteRecordRaw> = [
             name: "新建群聊",
             component: () => import("@/views/contact/GroupEditView.vue"),
           },
+          {
+            path: "/contact/userDetail",
+            name: "用户详情",
+            component: () => import("@/views/contact/UserDetailView.vue"),
+          },
         ]
       },
       {
